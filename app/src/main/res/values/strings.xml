@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Do código ao APK</string>
+    <string name="course_label">ANDROID + CODEMAGIC</string>
+    <string name="welcome_message">Meu primeiro APK com Codemagic</string>
+    <string name="subtitle">Código, testes e um aplicativo pronto para experimentar.</string>
+    <string name="count_value">%1$d</string>
+    <string name="count_initial">0</string>
+    <string name="increment">Somar 1</string>
+    <string name="reset">Zerar contador</string>
+</resources>

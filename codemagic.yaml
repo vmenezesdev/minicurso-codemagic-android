@@ -1,0 +1,31 @@
+workflows:
+  android-debug:
+    name: Android - testes e APK
+    # Também compila Android; evita exigir máquina Linux com billing habilitado.
+    instance_type: mac_mini_m2
+    max_build_duration: 30
+    environment:
+      java: 17
+    triggering:
+      events:
+        - push
+      branch_patterns:
+        - pattern: '*'
+          include: true
+          source: true
+      cancel_previous_builds: true
+    scripts:
+      - name: Preparar ambiente Android
+        script: |
+          set -eu
+          printf 'sdk.dir=%s\n' "$ANDROID_SDK_ROOT" > "$CM_BUILD_DIR/local.properties"
+          chmod +x gradlew
+      # Uma falha nesta etapa interrompe o fluxo antes da geração do APK.
+      - name: Executar testes unitários
+        script: ./gradlew --no-daemon :app:testDebugUnitTest
+        test_report: app/build/test-results/testDebugUnitTest/*.xml
+      - name: Gerar APK de debug
+        script: ./gradlew --no-daemon :app:assembleDebug
+    artifacts:
+      - app/build/outputs/apk/debug/*.apk
+      - app/build/reports/tests/testDebugUnitTest/**
